@@ -3,7 +3,9 @@
 """
 # global settings
 dataset_type = 'TuSimpleDataset'
-data_root = "/disk1/zhouyang/dataset/tuSimple"
+# data_root = "/disk1/zhouyang/dataset/tuSimple"
+# data_root = "./datasets/tusimple-test"
+data_root = "./datasets/video_frames"
 test_mode = False
 mask_down_scale = 8
 hm_down_scale = 16

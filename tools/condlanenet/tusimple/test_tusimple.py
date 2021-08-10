@@ -121,6 +121,10 @@ def single_gpu_test(seg_model,
                     nms_thr=4,
                     mask_size=(1, 40, 100),
                     crop_bbox=(0, 160, 1280, 720)):
+    # vid_writer = cv2.VideoWriter('./1080_mid_out.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 30, (1920, 1080))
+    # vid_writer = cv2.VideoWriter('./mid_out.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 30, (1280, 720))
+    vid_writer = cv2.VideoWriter('./test.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 60, (1280, 720))
+    final_output = json.load(open('./output.json','r'))
     seg_model.eval()
     dataset = data_loader.dataset
     post_processor = CondLanePostProcessor(
@@ -163,15 +167,18 @@ def single_gpu_test(seg_model,
             save_name = sub_name.replace('/', '.')
             dst_show_dir = path_join(show, save_name)
             dst_show_gt_dir = path_join(show, save_name + '.gt.jpg')
-            cv2.imwrite(dst_show_dir, img_vis)
-            cv2.imwrite(dst_show_gt_dir, img_gt_vis)
-
+            # cv2.imwrite(dst_show_dir, img_vis)
+            vid_writer.write(img_vis)
+            # cv2.imwrite(dst_show_gt_dir, img_gt_vis)
+        final_output[i]['lanes'] = len(result)
         batch_size = data['img'].data[0].size(0)
         for _ in range(batch_size):
             prog_bar.update()
     if result_dst:
         f_dst.close()
-
+    with open("./output_car_lane.json",'w') as f:
+        json.dump(final_output,f)
+        print('json dumped')
 
 class DateEnconding(json.JSONEncoder):
 
@@ -201,6 +208,7 @@ def main():
         dataset,
         samples_per_gpu=1,
         workers_per_gpu=cfg.data.workers_per_gpu,
+        # workers_per_gpu=0,
         dist=distributed,
         shuffle=False)
 

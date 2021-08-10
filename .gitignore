@@ -119,3 +119,13 @@ work_dirs/
 *.pth
 *.py~
 *.sh~
+# mp4
+*.mp4
+*.MP4
+
+# Dataset
+datasets/
+
+# outputs
+out/
+vis_out/

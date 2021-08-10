@@ -363,6 +363,7 @@ class CondLaneNet(SingleStageDetector):
                      **kwargs):
         """Test without augmentation."""
         output = self.backbone(img.type(torch.cuda.FloatTensor))
+        # output = self.backbone(img.data[0])
         output, memory = self.neck(output)
         if self.head:
             seeds, hm = self.bbox_head.forward_test(output, hack_seeds,

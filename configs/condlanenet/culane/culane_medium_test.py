@@ -3,7 +3,8 @@
 """
 # global settings
 dataset_type = 'CulaneDataset'
-data_root = "/disk1/zhouyang/dataset/culane"
+# data_root = "/disk1/zhouyang/dataset/culane"
+data_root = "/home/ubuntu/conditional-lane-detection/datasets/video_frames/"
 mask_down_scale = 8
 hm_down_scale = 16
 num_lane_classes = 1
@@ -202,8 +203,8 @@ data = dict(
     test=dict(
         type=dataset_type,
         data_root=data_root,
-        data_list=data_root + '/list/test_debug_3000.txt',
-        test_suffix='.jpg',
+        data_list=data_root + '/list/test.txt',
+        test_suffix='.png',
         pipeline=val_pipeline,
         test_mode=True,
     ))

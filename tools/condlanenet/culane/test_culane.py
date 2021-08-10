@@ -210,14 +210,15 @@ def main():
     data_loader = build_dataloader(
         dataset,
         samples_per_gpu=1,
-        workers_per_gpu=cfg.data.workers_per_gpu,
+        # workers_per_gpu=cfg.data.workers_per_gpu,
+        workers_per_gpu=0,
         dist=distributed,
         shuffle=False)
 
     # build the model and load checkpoint
     model = build_detector(cfg.model)
     load_checkpoint(model, args.checkpoint, map_location='cpu')
-    model = MMDataParallel(model, device_ids=[0])
+    # model = MMDataParallel(model, device_ids=[0])
     if not args.show:
         show_dst = None
     else:
